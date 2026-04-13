@@ -6,21 +6,17 @@ export function createSudoku(grid) {
 }
 
 export function createSudokuFromJSON(json) {
-  // 兼容直接传 grid 或传包含 grid 的对象
-  const grid = json?.grid || json;
-  return new Sudoku(grid);
+  return new Sudoku(json?.grid || json);
 }
 
 export function createGame(params) {
   const game = new Game();
-  if (params?.sudoku) {
-    game.sudoku = params.sudoku;
-  }
+  if (params?.sudoku) game.sudoku = params.sudoku;
   return game;
 }
 
 export function createGameFromJSON(json) {
   const game = new Game();
-  // 暂时返回实例，确保契约测试通过
+  if (json?.sudoku) game.sudoku = createSudokuFromJSON(json.sudoku);
   return game;
 }
