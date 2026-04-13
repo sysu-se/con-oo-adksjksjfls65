@@ -1,3 +1,9 @@
+import { gameInstance } from './node_modules/@sudoku/game';
+
+// 强制把这个对象挂载到浏览器的全局窗口
+if (typeof window !== 'undefined') {
+    window.game = gameInstance;
+}
 <script>
 	import { onMount } from 'svelte';
 	import { validateSencode } from '@sudoku/sencode';
