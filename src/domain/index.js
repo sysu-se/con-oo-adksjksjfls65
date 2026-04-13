@@ -1,11 +1,13 @@
-// 注意这里的路径：从 domain 文件夹向上跳一级到 src，再进入那个特殊的 node_modules 目录
+// src/domain/index.js
 import { Sudoku } from '../node_modules/@sudoku/sudoku';
 import { Game } from '../node_modules/@sudoku/game';
 
 export function createSudoku(grid) {
+    // 确保测试脚本传入 grid 时能正确初始化
     return new Sudoku(grid);
 }
 
 export function createGame() {
+    // 这里 new 的是 Game 类
     return new Game();
 }
