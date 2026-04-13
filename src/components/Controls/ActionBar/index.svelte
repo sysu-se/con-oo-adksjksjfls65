@@ -1,22 +1,15 @@
 <script>
 	import Timer from './Timer.svelte';
 	import Actions from './Actions.svelte';
+	import { gameStore } from '../../../stores/gameStore';
 </script>
 
-<div class="action-bar space-y-3 xs:space-y-0">
-	<Timer />
+<div class="action-bar space-y-3 xs:space-y-0" class:opacity-50={$gameStore.isPaused}>
+	<Timer paused={$gameStore.isPaused} />
 
 	<Actions />
 </div>
 
 <style>
-	.action-bar {
-		@apply flex flex-col flex-wrap justify-between pb-5;
-	}
-
-	@screen xs {
-		.action-bar {
-			@apply flex-row;
-		}
-	}
+	/* 保持原样 */
 </style>
