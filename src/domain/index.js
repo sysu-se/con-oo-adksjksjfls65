@@ -1,16 +1,10 @@
-import { Sudoku } from '../models/Sudoku';
-import { Game } from '../models/Game';
+import { Sudoku } from '../models/sudoku'; // 注意这里变小写了
+import { Game } from '../models/game';     // 注意这里变小写了
 
-/**
- * 老师的测试脚本会调用这个函数来创建一个数独实例
- */
-export function createSudoku() {
-    return new Sudoku();
+export function createSudoku(grid) {
+    return new Sudoku(grid);
 }
 
-/**
- * 老师的测试脚本会调用这个函数来创建一个游戏实例
- */
 export function createGame() {
     return new Game();
 }
