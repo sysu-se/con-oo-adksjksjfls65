@@ -1,5 +1,6 @@
 <script>
-	import { userGrid } from '@sudoku/stores/grid';
+	// 1. 引入 gameStore
+	import { gameStore } from '../../stores/gameStore'; 
 	import { cursor } from '@sudoku/stores/cursor';
 	import { notes } from '@sudoku/stores/notes';
 	import { candidates } from '@sudoku/stores/candidates';
@@ -9,24 +10,32 @@
 
 	function handleKeyButton(num) {
 		if (!$keyboardDisabled) {
+			// 如果开启了笔记模式
 			if ($notes) {
 				if (num === 0) {
 					candidates.clear($cursor);
 				} else {
 					candidates.add($cursor, num);
 				}
-				userGrid.set($cursor, 0);
+				// 笔记模式下，通常要把格子的数值清空，或者保持 0
+				gameStore.guess($cursor.y, $cursor.x, 0);
 			} else {
+				// 普通填数模式
 				if ($candidates.hasOwnProperty($cursor.x + ',' + $cursor.y)) {
 					candidates.clear($cursor);
 				}
 
-				userGrid.set($cursor, num);
+				// 2. 核心改动：使用领域对象的方法填数
+				// 注意：这里要确保 $cursor.x 和 y 不为 null
+				if ($cursor.x !== null && $cursor.y !== null) {
+					gameStore.guess($cursor.y, $cursor.x, num);
+				}
 			}
 		}
 	}
 
 	function handleKey(e) {
+		// 键盘映射逻辑保持不变，它们只是 handleKeyButton 的触发器
 		switch (e.key || e.keyCode) {
 			case 'ArrowUp':
 			case 38:
@@ -74,10 +83,9 @@
 	}
 </script>
 
-<svelte:window on:keydown={handleKey} /><!--on:beforeunload|preventDefault={e => e.returnValue = ''} />-->
+<svelte:window on:keydown={handleKey} />
 
 <div class="keyboard-grid">
-
 	{#each Array(10) as _, keyNum}
 		{#if keyNum === 9}
 			<button class="btn btn-key" disabled={$keyboardDisabled} title="Erase Field" on:click={() => handleKeyButton(0)}>
@@ -91,14 +99,12 @@
 			</button>
 		{/if}
 	{/each}
-
 </div>
 
 <style>
 	.keyboard-grid {
 		@apply grid grid-rows-2 grid-cols-5 gap-3;
 	}
-
 
 	.btn-key {
 		@apply py-4 px-0;
