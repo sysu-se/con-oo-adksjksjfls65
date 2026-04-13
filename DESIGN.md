@@ -1,4 +1,4 @@
-在本项目中，View 层（Svelte 组件）主要通过导出的 gameInstance 单例来消费领域逻辑。我们在 src/node_modules/@sudoku/game.js 中封装了完整的游戏状态，Svelte 组件通过引入这个单例，可以直接访问 Game 和 Sudoku 类提供的所有核心方法。这种设计确保了业务逻辑高度集中在领域模型中，而 UI 逻辑仅负责数据的呈现和用户指令的转发。
+  在本项目中，View 层（Svelte 组件）主要通过导出的 gameInstance 单例来消费领域逻辑。我们在 src/node_modules/@sudoku/game.js 中封装了完整的游戏状态，Svelte 组件通过引入这个单例，可以直接访问 Game 和 Sudoku 类提供的所有核心方法。这种设计确保了业务逻辑高度集中在领域模型中，而 UI 逻辑仅负责数据的呈现和用户指令的转发。
 
   View 层从领域对象中获取的数据是高度结构化且只读的。通过调用 game.getSudoku().getGrid()，界面能够拿到标准的二维数组用于 {#each} 循环渲染。除了棋盘数据，View 层还消费了诸如 isPaused 等布尔状态，以及通过 canUndo() 和 canRedo() 获取的逻辑判断，从而动态决定界面上撤销与重做按钮的禁用状态。这种消费方式保证了 UI 始终是领域模型状态的一个实时快照。
 
